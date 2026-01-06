@@ -17,31 +17,36 @@ CREATE TABLE person (
     last_name VARCHAR(100) NOT NULL,
 	address_id INT,
     FOREIGN KEY (address_id) REFERENCES address(address_id)
+		ON DELETE SET NULL
 );
 
 CREATE TABLE phone (
 	phone_id SERIAL PRIMARY KEY,
-    phone_number VARCHAR(20) NOT NULL
+    phone_number VARCHAR(20) NOT NULL UNIQUE
 );
 
 CREATE TABLE person_phone (
 	person_id INT NOT NULL,
     phone_id INT NOT NULL,
-    FOREIGN KEY (person_id) REFERENCES person(person_id),
-    FOREIGN KEY (phone_id) REFERENCES phone(phone_id),
+    FOREIGN KEY (person_id) REFERENCES person(person_id)
+		ON DELETE CASCADE,
+    FOREIGN KEY (phone_id) REFERENCES phone(phone_id)
+		ON DELETE CASCADE,
     PRIMARY KEY (person_id, phone_id)
 );
 
 CREATE TABLE email (
 	email_id SERIAL PRIMARY KEY,
-    email_address VARCHAR(254) NOT NULL
+    email_address VARCHAR(254) NOT NULL UNIQUE
 );
 
 CREATE TABLE person_email (
 	person_id INT NOT NULL,
     email_id INT NOT NULL,
-    FOREIGN KEY (person_id) REFERENCES person(person_id),
-    FOREIGN KEY (email_id) REFERENCES email(email_id),
+    FOREIGN KEY (person_id) REFERENCES person(person_id)
+		ON DELETE CASCADE,
+    FOREIGN KEY (email_id) REFERENCES email(email_id)
+		ON DELETE CASCADE,
     PRIMARY KEY (person_id, email_id)
 );
 
@@ -56,7 +61,8 @@ CREATE TABLE employee (
     person_id INT NOT NULL UNIQUE,
     job_title_id INT NOT NULL,
 	department_id INT,
-    FOREIGN KEY (supervisor_id) REFERENCES employee(employment_id),
+    FOREIGN KEY (supervisor_id) REFERENCES employee(employment_id)
+		ON DELETE SET NULL,
     FOREIGN KEY (person_id) REFERENCES person(person_id),
     FOREIGN KEY (job_title_id) REFERENCES job_title(job_title_id)
 );
@@ -82,8 +88,10 @@ CREATE TABLE skill (
 CREATE TABLE employee_skill (
 	employment_id INT NOT NULL,
 	skill_id INT NOT NULL,
-	FOREIGN KEY (employment_id) REFERENCES employee(employment_id),
-	FOREIGN KEY (skill_id) REFERENCES skill(skill_id),
+	FOREIGN KEY (employment_id) REFERENCES employee(employment_id)
+		ON DELETE CASCADE,
+	FOREIGN KEY (skill_id) REFERENCES skill(skill_id)
+		ON DELETE CASCADE,
 	PRIMARY KEY (employment_id, skill_id)
 );
 
@@ -124,20 +132,33 @@ CREATE TABLE teaching_activity (
 	factor DOUBLE PRECISION NOT NULL
 );
 
+CREATE TABLE activity_constants (
+	teaching_activity_id INT NOT NULL,
+	hp_factor DOUBLE PRECISION NOT NULL,
+	student_factor DOUBLE PRECISION NOT NULL,
+	constant_value INT NOT NULL,
+	FOREIGN KEY (teaching_activity_id) REFERENCES teaching_activity(teaching_activity_id)
+		ON DELETE CASCADE,
+	PRIMARY KEY (teaching_activity_id)
+);
+
 CREATE TABLE planned_activity (
 	planned_activity_id SERIAL PRIMARY KEY,
 	course_instance_id INT NOT NULL,
 	teaching_activity_id INT NOT NULL,
 	planned_hours INT NOT NULL,
-	FOREIGN KEY (course_instance_id) REFERENCES course_instance(course_instance_id),
+	FOREIGN KEY (course_instance_id) REFERENCES course_instance(course_instance_id)
+		ON DELETE CASCADE,
 	FOREIGN KEY (teaching_activity_id) REFERENCES teaching_activity(teaching_activity_id)
 );
 
 CREATE TABLE allocated_activity (
 	employment_id INT NOT NULL,
 	planned_activity_id INT NOT NULL,
-	FOREIGN KEY (employment_id) REFERENCES employee(employment_id),
-	FOREIGN KEY (planned_activity_id) REFERENCES planned_activity(planned_activity_id),
+	FOREIGN KEY (employment_id) REFERENCES employee(employment_id)
+		ON DELETE CASCADE,
+	FOREIGN KEY (planned_activity_id) REFERENCES planned_activity(planned_activity_id)
+		ON DELETE CASCADE,
 	PRIMARY KEY (employment_id, planned_activity_id)
 );
 
@@ -148,8 +169,6 @@ CREATE TABLE salary (
 	start_date DATE NOT NULL,
 	FOREIGN KEY (employment_id) REFERENCES employee(employment_id)
 );
-
-
 
 CREATE OR REPLACE FUNCTION is_at_max_allocated_courses()
 	RETURNS TRIGGER AS $$

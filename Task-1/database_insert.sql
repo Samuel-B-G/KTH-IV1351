@@ -140,7 +140,13 @@ INSERT INTO teaching_activity (activity_name, factor) VALUES
 ('Lecture', 3.6),
 ('Lab', 2.4),
 ('Tutorial', 2.4),
-('Seminar', 1.8);
+('Seminar', 1.8),
+('Exam', 1),
+('Admin', 1);
+
+INSERT INTO activity_constants (teaching_activity_id, hp_factor, student_factor, constant_value) VALUES
+(5, 1, 0.725, 32),
+(6, 2, 0.2, 28);
 
 INSERT INTO planned_activity (course_instance_id, teaching_activity_id, planned_hours) VALUES
 (1, 1, 4),
@@ -158,7 +164,22 @@ INSERT INTO planned_activity (course_instance_id, teaching_activity_id, planned_
 (6, 3, 2),
 (6, 2, 3),
 (7, 2, 4),
-(7, 3, 2);
+(7, 3, 2),
+
+(1, 5, 0),
+(1, 6, 0),
+(2, 5, 0),
+(2, 6, 0),
+(3, 5, 0),
+(3, 6, 0),
+(4, 5, 0),
+(4, 6, 0),
+(5, 5, 0),
+(5, 6, 0),
+(6, 5, 0),
+(6, 6, 0),
+(7, 5, 0),
+(7, 6, 0);
 
 INSERT INTO allocated_activity (employment_id, planned_activity_id) VALUES
 (1, 1),
@@ -182,4 +203,15 @@ INSERT INTO allocated_activity (employment_id, planned_activity_id) VALUES
 (3, 14),
 (4, 15),
 (2, 15),
-(2, 16);
+(2, 16),
+
+(1, 17),
+(2, 18),
+(3, 19),
+(4, 20),
+(5, 21),
+(1, 24),
+(2, 25),
+(3, 28),
+(4, 29),
+(5, 30);
