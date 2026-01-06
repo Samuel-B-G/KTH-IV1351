@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS course_instance_allocated_hours;
+
 CREATE OR REPLACE VIEW course_instance_allocated_hours AS (
 	SELECT
 		cl.course_code AS "Course Code",
@@ -61,4 +63,5 @@ CREATE OR REPLACE VIEW course_instance_allocated_hours AS (
 
 -- Run the query below to use the view.
 SELECT *
+
 FROM course_instance_allocated_hours;
