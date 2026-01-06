@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS planned_hours_year;
+
 CREATE OR REPLACE VIEW planned_hours_year AS (
 	SELECT
 		cl.course_code AS "Course Code",
@@ -51,4 +53,5 @@ CREATE OR REPLACE VIEW planned_hours_year AS (
 
 -- Run the query below to use the view.
 SELECT *
+
 FROM planned_hours_year;
