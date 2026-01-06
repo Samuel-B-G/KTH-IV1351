@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS employee_total_allocated_hours_year;
+
 CREATE OR REPLACE VIEW employee_total_allocated_hours_year AS (
 	SELECT
 		cl.course_code AS "Course Code",
@@ -57,4 +59,5 @@ CREATE OR REPLACE VIEW employee_total_allocated_hours_year AS (
 
 -- Run the query below to use the view.
 SELECT *
+
 FROM employee_total_allocated_hours_year;
