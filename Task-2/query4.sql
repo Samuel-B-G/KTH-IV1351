@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS employees_allocated_course_over_specified_amount_period;
+
 CREATE OR REPLACE VIEW employees_allocated_course_over_specified_amount_period AS (
 	SELECT
 		e.employment_id AS "Employment ID",
@@ -32,4 +34,5 @@ CREATE OR REPLACE VIEW employees_allocated_course_over_specified_amount_period A
 
 -- Run the query below to use the view.
 SELECT *
+
 FROM employees_allocated_course_over_specified_amount_period;
